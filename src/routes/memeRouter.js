@@ -30,11 +30,18 @@ router.get("/month", async (req, res) => {
     });
 
     let formatted = [];
+
     JSON.parse(result).default.timelineData.map(data => {
-      formatted.push({ time: data.time, value: data.value[0] });
+      formatted.push(data.value[0]);
     });
 
-    return { formatted };
+    return {
+      formatted,
+      meme: meme.substring(0, meme.length - 4),
+      value: (formatted.reduce((a, b) => a + b, 0) / formatted.length).toFixed(
+        2
+      )
+    };
   });
 
   const formattedResults = await Promise.all(results);
